@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manual Override | Catherine's Bagasbas Lighthouse Resort</title>
+    <meta name="description" content="Manual hardware overrides for the diorama (Admin only).">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="css/control-pages.css">
+</head>
+
+<body>
+
+    <div id="controlSidebar"></div>
+
+    <main class="cs-main">
+
+        <header class="cs-topbar">
+            <div>
+                <span class="cs-eyebrow">Owner Controls</span>
+                <h1>Manual Override</h1>
+                <p>Direct access to hardware states: servos, motors, sensors, and system settings.</p>
+            </div>
+            <span class="cs-connection" id="csConnection"><i></i>Connecting…</span>
+        </header>
+
+        <div id="pageContent" class="cs-grid">
+
+            <section class="cs-card span-6">
+                <div class="cs-card-head">
+                    <div>
+                        <h2>Gate & Car</h2>
+                        <small>Entrance servo and TB6612 motors</small>
+                    </div>
+                </div>
+
+                <div class="cs-toggle-row">
+                    <div>
+                        <strong>Entrance Gate Servo</strong>
+                        <span id="gateState">Target: Closed · State: Closed</span>
+                    </div>
+                    <button type="button" class="cs-switch" id="gateSwitch" aria-label="Toggle Gate"></button>
+                </div>
+                
+                <div class="cs-toggle-row" style="margin-top:0">
+                    <div>
+                        <strong>Auto-Open Gate</strong>
+                        <span>Opens automatically on Check-in</span>
+                    </div>
+                    <button type="button" class="cs-switch" id="gateAutoSwitch" aria-label="Toggle Auto Gate"></button>
+                </div>
+
+                <div class="cs-toggle-row" style="margin-top: 16px;">
+                    <div>
+                        <strong>Car Motor (TB6612)</strong>
+                        <span id="carState">Command: Stop · State: Stopped</span>
+                    </div>
+                </div>
+                
+                <div class="cs-seg" id="carCommand" style="margin-top:0; margin-bottom: 16px;">
+                    <button type="button" data-cmd="forward">Forward</button>
+                    <button type="button" data-cmd="stop">Stop</button>
+                    <button type="button" data-cmd="backward">Reverse</button>
+                </div>
+                
+                <div class="cs-range">
+                    <label for="carSpeed">Car Speed PWM</label>
+                    <input type="range" id="carSpeed" min="40" max="255" value="70">
+                    <output id="carSpeedValue">70</output>
+                </div>
+            </section>
+
+            <section class="cs-card span-6">
+                <div class="cs-card-head">
+                    <div>
+                        <h2>System & Relays</h2>
+                        <small>Power mode, pump, and beacon</small>
+                    </div>
+                </div>
+
+                <div class="cs-toggle-row">
+                    <div>
+                        <strong>System Power</strong>
+                        <span>Master kill switch for all diorama lights</span>
+                    </div>
+                    <button type="button" class="cs-switch" id="powerSwitch" aria-label="Toggle Power"></button>
+                </div>
+
+                <div class="cs-toggle-row">
+                    <div>
+                        <strong>Lighthouse Beacon</strong>
+                        <span>Rotating beacon light</span>
+                    </div>
+                    <button type="button" class="cs-switch" id="beaconSwitch" aria-label="Toggle Beacon"></button>
+                </div>
+
+                <div class="cs-toggle-row">
+                    <div>
+                        <strong>Pool Water Pump</strong>
+                        <span>Physical water pump relay</span>
+                    </div>
+                    <button type="button" class="cs-switch" id="pumpSwitch" aria-label="Toggle Pump"></button>
+                </div>
+                
+                <div class="cs-stats" style="margin-top: 16px;">
+                    <div class="cs-stat"><span>System Mode</span><strong id="statMode">Normal</strong></div>
+                    <div class="cs-stat"><span>Gate IR</span><strong id="statIr">Clear</strong></div>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <script src="js/database.js"></script>
+    <script src="js/firebase-config.js"></script>
+    <script src="js/diorama-link.js"></script>
+    <script src="js/control-shell.js"></script>
+    <script src="js/manual-override.js"></script>
+
+</body>
+
+</html>

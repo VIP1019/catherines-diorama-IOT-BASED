@@ -607,6 +607,17 @@
             reservations.unshift(newReservation);
             this._saveReservations(reservations);
 
+            // AUTO-UPDATE DIORAMA NAME:
+            // Send the new guest's name directly to the ESP32 so it is ready
+            // for the instant RFID tap bypass!
+            if (window.DioramaLink) {
+                window.DioramaLink.update("guest", {
+                    name: newReservation.guestName,
+                    reference: newReservation.reference,
+                    checkedIn: false
+                });
+            }
+
             // Update currentReservation for the active guest session
             safeSetItem(STORAGE_KEY_CURRENT_RES, JSON.stringify(newReservation));
 

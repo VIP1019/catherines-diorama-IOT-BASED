@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lighthouse KTV | Catherine's Bagasbas Lighthouse Resort</title>
+    <meta name="description" content="Open the Lighthouse KTV, choose songs, view lyrics and control KTV lighting and the rotating beacon at Catherine's Bagasbas Lighthouse Resort.">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="css/control-pages.css">
+</head>
+
+<body>
+
+    <div id="controlSidebar"></div>
+
+    <main class="cs-main">
+
+        <header class="cs-topbar">
+            <div>
+                <span class="cs-eyebrow">Lighthouse · KTV Lounge</span>
+                <h1>Lighthouse KTV</h1>
+                <p>Open the lighthouse to reveal the KTV room, pick a song and sing along with the lyrics on the monitor.</p>
+            </div>
+            <span class="cs-connection" id="csConnection"><i></i>Connecting…</span>
+        </header>
+
+        <div id="pageContent" class="cs-grid">
+
+            <!-- LIGHTHOUSE -->
+            <section class="cs-card span-5">
+                <div class="cs-card-head">
+                    <div>
+                        <h2>The Lighthouse</h2>
+                        <small>Servo panel · KY-003 Hall sensor</small>
+                    </div>
+                    <span class="cs-chip off" id="hallChip">Closed</span>
+                </div>
+
+                <div class="ktv-stage">
+                    <div class="lighthouse" id="lighthouse">
+                        <div class="lh-beam" id="lhBeam"></div>
+                        <div class="lh-lamp"></div>
+                        <div class="lh-tower">
+                            <div class="lh-room" id="lhRoom">KTV</div>
+                            <div class="lh-door"></div>
+                        </div>
+                    </div>
+
+                    <div class="ktv-status">
+                        <button type="button" class="cs-btn primary lg block" id="ktvPanelButton">
+                            <i class="fa-solid fa-door-open"></i> Open KTV
+                        </button>
+
+                        <div class="cs-stats">
+                            <div class="cs-stat"><span>Panel</span><strong id="panelTarget">Closed</strong></div>
+                            <div class="cs-stat"><span>Hall Sensor</span><strong id="hallState">No magnet</strong></div>
+                        </div>
+
+                        <div class="cs-toggle-row">
+                            <div>
+                                <strong>Rotating Beacon</strong>
+                                <span id="beaconLabel">Sweeping</span>
+                            </div>
+                            <button type="button" class="cs-switch" id="beaconSwitch" aria-label="Toggle beacon"></button>
+                        </div>
+
+                        <div class="cs-seg" id="beaconSpeed" aria-label="Beacon speed">
+                            <button type="button" data-rpm="3">Slow</button>
+                            <button type="button" data-rpm="6">Normal</button>
+                            <button type="button" data-rpm="10">Fast</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- LYRICS MONITOR -->
+            <section class="cs-card dark span-7">
+                <div class="cs-card-head">
+                    <div>
+                        <h2>Lyrics Monitor</h2>
+                        <small>Mirrors the 1.8" TFT inside the lighthouse</small>
+                    </div>
+                    <span class="cs-chip off" id="playChip">Stopped</span>
+                </div>
+
+                <div class="lyrics-screen" id="lyricsScreen">
+                    <div class="idle">Open the KTV and choose a song to begin.</div>
+                </div>
+
+                <div class="lyrics-progress"><i id="lyricsProgress"></i></div>
+
+                <div class="transport">
+                    <button type="button" id="prevButton" aria-label="Previous song"><i class="fa-solid fa-backward-step"></i></button>
+                    <button type="button" id="stopButton" aria-label="Stop"><i class="fa-solid fa-stop"></i></button>
+                    <button type="button" class="main" id="playButton" aria-label="Play or pause"><i class="fa-solid fa-play"></i></button>
+                    <button type="button" id="nextButton" aria-label="Next song"><i class="fa-solid fa-forward-step"></i></button>
+                </div>
+
+                <div class="cs-range" style="margin-top:18px">
+                    <label for="volumeRange" style="color:#c4b096">Volume</label>
+                    <input type="range" id="volumeRange" min="0" max="30" value="18">
+                    <output id="volumeValue" style="color:#fbefdc">18</output>
+                </div>
+
+                <p id="ktvHint" style="margin-top:12px;font-size:12px;color:#c4b096;text-align:center"></p>
+            </section>
+
+            <!-- SONG LIST -->
+            <section class="cs-card span-5">
+                <div class="cs-card-head">
+                    <div>
+                        <h2>Song List</h2>
+                        <small>Tap a song to load it</small>
+                    </div>
+                    <i class="fa-solid fa-music" style="color:var(--gold)"></i>
+                </div>
+                <ul class="song-list" id="songList"></ul>
+            </section>
+
+            <!-- KTV LIGHTING -->
+            <section class="cs-card span-7">
+                <div class="cs-card-head">
+                    <div>
+                        <h2>KTV Lighting</h2>
+                        <small>Red · Green · Blue LEDs on ESP 2</small>
+                    </div>
+                    <span class="cs-chip info" id="lightModeChip">Party</span>
+                </div>
+
+                <div class="cs-seg" id="lightModes" style="margin-bottom:16px">
+                    <button type="button" data-mode="static">Static</button>
+                    <button type="button" data-mode="party">Party Cycle</button>
+                    <button type="button" data-mode="pulse">Pulse</button>
+                    <button type="button" data-mode="off">Off</button>
+                </div>
+
+                <div class="led-row">
+                    <button type="button" class="led r" data-led="r" id="ledRed"><i></i>RED</button>
+                    <button type="button" class="led g" data-led="g" id="ledGreen"><i></i>GREEN</button>
+                    <button type="button" class="led b" data-led="b" id="ledBlue"><i></i>BLUE</button>
+                </div>
+
+                <p style="margin-top:14px;font-size:12px;color:var(--muted)">
+                    In <b>Static</b> mode the selected LEDs stay on. <b>Party</b> cycles through them, <b>Pulse</b> blinks them together.
+                </p>
+            </section>
+
+        </div>
+    </main>
+
+    <script src="js/database.js"></script>
+    <script src="js/firebase-config.js"></script>
+    <script src="js/diorama-link.js"></script>
+    <script src="js/control-shell.js"></script>
+    <script src="js/ktv-songs.js"></script>
+    <script src="js/ktv.js"></script>
+
+</body>
+
+</html>

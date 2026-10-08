@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pool Lighting | Catherine's Bagasbas Lighthouse Resort</title>
+    <meta name="description" content="Choose RGB pool colors, effects and arched bridge lighting for the swimming pool at Catherine's Bagasbas Lighthouse Resort.">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="css/control-pages.css">
+</head>
+
+<body>
+
+    <div id="controlSidebar"></div>
+
+    <main class="cs-main">
+
+        <header class="cs-topbar">
+            <div>
+                <span class="cs-eyebrow">Pool Area · Arched Bridge</span>
+                <h1>Pool Lighting</h1>
+                <p>Set the color of the RGB pool lights and switch the arched bridge lights on or off.</p>
+            </div>
+            <span class="cs-connection" id="csConnection"><i></i>Connecting…</span>
+        </header>
+
+        <div id="pageContent" class="cs-grid">
+
+            <section class="cs-card span-7">
+                <div class="cs-card-head">
+                    <div>
+                        <h2>Live Preview</h2>
+                        <small>Mirrors the diorama pool</small>
+                    </div>
+                    <span class="cs-chip off" id="poolChip">Lights off</span>
+                </div>
+
+                <div class="pool-scene">
+                    <div class="pool-water off" id="poolWater"></div>
+                    <div class="pool-bridge" id="poolBridge"></div>
+                </div>
+
+                <div class="cs-stats" style="margin-top:16px">
+                    <div class="cs-stat"><span>Color</span><strong id="statColor">—</strong></div>
+                    <div class="cs-stat"><span>Effect</span><strong id="statEffect">—</strong></div>
+                    <div class="cs-stat"><span>Bridge</span><strong id="statBridge">—</strong></div>
+                    <div class="cs-stat"><span>Event Mode</span><strong id="statEvent">—</strong></div>
+                </div>
+            </section>
+
+            <section class="cs-card span-5">
+                <div class="cs-card-head">
+                    <div>
+                        <h2>Controls</h2>
+                        <small>Pool RGB · Bridge lights</small>
+                    </div>
+                </div>
+
+                <div class="cs-toggle-row">
+                    <div>
+                        <strong>Pool RGB Lights</strong>
+                        <span>Color-changing underwater LEDs</span>
+                    </div>
+                    <button type="button" class="cs-switch" id="poolSwitch" aria-label="Toggle pool lights"></button>
+                </div>
+
+                <div class="cs-toggle-row">
+                    <div>
+                        <strong>Arched Bridge Lights</strong>
+                        <span>Warm accent lights on the bridge</span>
+                    </div>
+                    <button type="button" class="cs-switch" id="bridgeSwitch" aria-label="Toggle bridge lights"></button>
+                </div>
+
+                <div class="cs-toggle-row" id="pumpRow">
+                    <div>
+                        <strong>Water Pump</strong>
+                        <span>Pool pump relay (owner only)</span>
+                    </div>
+                    <button type="button" class="cs-switch" id="pumpSwitch" aria-label="Toggle pool pump"></button>
+                </div>
+
+                <div class="cs-range" style="margin-top:14px">
+                    <label for="brightnessRange">Brightness</label>
+                    <input type="range" id="brightnessRange" min="5" max="100" value="80">
+                    <output id="brightnessValue">80%</output>
+                </div>
+            </section>
+
+            <section class="cs-card span-7">
+                <div class="cs-card-head">
+                    <div>
+                        <h2>Pool Color</h2>
+                        <small>Tap a color to send it to the pool</small>
+                    </div>
+                </div>
+
+                <div class="swatches" id="swatches"></div>
+
+                <label class="color-custom" for="customColor">
+                    <input type="color" id="customColor" value="#2ec4d6">
+                    Custom color
+                </label>
+            </section>
+
+            <section class="cs-card span-5">
+                <div class="cs-card-head">
+                    <div>
+                        <h2>Effect</h2>
+                        <small>How the pool lights behave</small>
+                    </div>
+                </div>
+
+                <div class="cs-seg" id="effects">
+                    <button type="button" data-effect="solid">Solid</button>
+                    <button type="button" data-effect="wave">Wave</button>
+                    <button type="button" data-effect="pulse">Pulse</button>
+                    <button type="button" data-effect="rainbow">Rainbow</button>
+                </div>
+
+                <p style="margin-top:14px;font-size:12px;color:var(--muted);line-height:1.5">
+                    While <b>Event Mode</b> is on, the pool switches to music-reactive lighting using the MAX9814 sound sensor. Your color is restored when Event Mode ends.
+                </p>
+            </section>
+
+        </div>
+    </main>
+
+    <script src="js/database.js"></script>
+    <script src="js/firebase-config.js"></script>
+    <script src="js/diorama-link.js"></script>
+    <script src="js/control-shell.js"></script>
+    <script src="js/pool.js"></script>
+
+</body>
+
+</html>

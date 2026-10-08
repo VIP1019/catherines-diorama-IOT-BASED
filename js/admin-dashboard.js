@@ -1,998 +1,132 @@
 "use strict";
 
-
-/* =========================================================
-   CATHERINE'S ADMIN DASHBOARD
-========================================================= */
-
-
-document.addEventListener(
-    "DOMContentLoaded",
-    () => {
-
-
-        /* =================================================
-           NAVIGATION
-        ================================================== */
-
-        const adminNavItems =
-            document.querySelectorAll(
-                ".admin-nav-item"
-            );
-
-
-        adminNavItems.forEach(
-            item => {
-
-                item.addEventListener(
-                    "click",
-                    () => {
-
-
-                        const link =
-                            item.dataset.link;
-
-
-                        /*
-                         * Pages that already exist
-                         */
-
-                        if (link) {
-
-                            window.location.href =
-                                link;
-
-                            return;
-
-                        }
-
-
-                        /*
-                         * Local admin sections
-                         */
-
-                        const section =
-                            item.dataset.section;
-
-
-                        if (!section) {
-                            return;
-                        }
-
-
-                        adminNavItems.forEach(
-                            nav => {
-
-                                nav.classList.remove(
-                                    "active"
-                                );
-
-                            }
-                        );
-
-
-                        item.classList.add(
-                            "active"
-                        );
-
-
-                        if (
-                            section === "overrides"
-                        ) {
-
-                            scrollToSection(
-                                "overrideSection"
-                            );
-
-                        }
-
-
-                        if (
-                            section === "sensors"
-                        ) {
-
-                            scrollToSection(
-                                "sensorSection"
-                            );
-
-                        }
-
-
-                        if (
-                            section === "demo"
-                        ) {
-
-                            scrollToSection(
-                                "demoSection"
-                            );
-
-                        }
-
-
-                        if (
-                            section === "overview"
-                        ) {
-
-                            scrollToSection(
-                                "overviewSection"
-                            );
-
-                        }
-
-                    }
-                );
-
-            }
-        );
-
-
-        /* =================================================
-           SECTION TABS
-        ================================================== */
-
-        const sectionTabs =
-            document.querySelectorAll(
-                ".section-tab"
-            );
-
-
-        sectionTabs.forEach(
-            tab => {
-
-                tab.addEventListener(
-                    "click",
-                    () => {
-
-                        sectionTabs.forEach(
-                            item => {
-
-                                item.classList.remove(
-                                    "active"
-                                );
-
-                            }
-                        );
-
-
-                        tab.classList.add(
-                            "active"
-                        );
-
-
-                        const target =
-                            document.getElementById(
-                                tab.dataset.target
-                            );
-
-
-                        if (target) {
-
-                            target.scrollIntoView(
-                                {
-                                    behavior:
-                                        "smooth",
-
-                                    block:
-                                        "start"
-                                }
-                            );
-
-                        }
-
-                    }
-                );
-
-            }
-        );
-
-
-        /* =================================================
-           ATMOSPHERE PRESETS
-        ================================================== */
-
-        const atmosphereButtons =
-            document.querySelectorAll(
-                ".atmosphere-button"
-            );
-
-
-        const activePreset =
-            document.getElementById(
-                "activePreset"
-            );
-
-
-        atmosphereButtons.forEach(
-            button => {
-
-                button.addEventListener(
-                    "click",
-                    () => {
-
-                        atmosphereButtons.forEach(
-                            item => {
-
-                                item.classList.remove(
-                                    "active"
-                                );
-
-                            }
-                        );
-
-
-                        button.classList.add(
-                            "active"
-                        );
-
-
-                        const atmosphere =
-                            button.dataset.atmosphere;
-
-
-                        if (activePreset) {
-
-                            activePreset.textContent =
-                                `Active: ${atmosphere}`;
-
-                        }
-
-                    }
-                );
-
-            }
-        );
-
-
-        /* =================================================
-           DAY / NIGHT MODE
-        ================================================== */
-
-        const dayMode =
-            document.getElementById(
-                "dayMode"
-            );
-
-
-        const nightMode =
-            document.getElementById(
-                "nightMode"
-            );
-
-
-        if (dayMode && nightMode) {
-
-            dayMode.addEventListener(
-                "click",
-                () => {
-
-                    dayMode.classList.add(
-                        "active"
-                    );
-
-                    nightMode.classList.remove(
-                        "active"
-                    );
-
-                    document.body.classList.remove(
-                        "night-mode"
-                    );
-
-                }
-            );
-
-
-            nightMode.addEventListener(
-                "click",
-                () => {
-
-                    nightMode.classList.add(
-                        "active"
-                    );
-
-                    dayMode.classList.remove(
-                        "active"
-                    );
-
-                    document.body.classList.add(
-                        "night-mode"
-                    );
-
-                }
-            );
-
-        }
-
-
-        /* =================================================
-           DARK RESORT KILL
-        ================================================== */
-
-        const killButton =
-            document.getElementById(
-                "killButton"
-            );
-
-
-        if (killButton) {
-
-            killButton.addEventListener(
-                "click",
-                () => {
-
-                    const confirmed =
-                        window.confirm(
-                            "WARNING: This will simulate a full resort hardware shutdown. Continue?"
-                        );
-
-
-                    if (!confirmed) {
-                        return;
-                    }
-
-
-                    document.body.classList.add(
-                        "resort-killed"
-                    );
-
-
-                    killButton.textContent =
-                        "RESORT OFFLINE";
-
-
-                    alert(
-                        "Demo mode: resort hardware state set to OFFLINE."
-                    );
-
-                }
-            );
-
-        }
-
-
-        /* =================================================
-           EMERGENCY RESET
-        ================================================== */
-
-        const emergencyButton =
-            document.getElementById(
-                "emergencyButton"
-            );
-
-
-        if (emergencyButton) {
-
-            emergencyButton.addEventListener(
-                "click",
-                () => {
-
-                    const confirmed =
-                        window.confirm(
-                            "Perform simulated emergency hardware reset?"
-                        );
-
-
-                    if (!confirmed) {
-                        return;
-                    }
-
-
-                    alert(
-                        "Demo mode: ESP32 hardware reset command issued."
-                    );
-
-                }
-            );
-
-        }
-
-
-        /* =================================================
-           ENTRANCE GATE
-        ================================================== */
-
-        const openGate =
-            document.getElementById(
-                "openGate"
-            );
-
-
-        const closeGate =
-            document.getElementById(
-                "closeGate"
-            );
-
-
-        if (openGate) {
-
-            openGate.addEventListener(
-                "click",
-                () => {
-
-                    alert(
-                        "Demo: Entrance gate OPEN command sent."
-                    );
-
-                }
-            );
-
-        }
-
-
-        if (closeGate) {
-
-            closeGate.addEventListener(
-                "click",
-                () => {
-
-                    alert(
-                        "Demo: Entrance gate CLOSE command sent."
-                    );
-
-                }
-            );
-
-        }
-
-
-        /* =================================================
-           WELCOME AUDIO
-        ================================================== */
-
-        const welcomeAudio =
-            document.getElementById(
-                "welcomeAudio"
-            );
-
-
-        if (welcomeAudio) {
-
-            welcomeAudio.addEventListener(
-                "click",
-                () => {
-
-                    alert(
-                        "Demo: Resort welcome audio activated."
-                    );
-
-                }
-            );
-
-        }
-
-
-        /* =================================================
-           TOGGLE SWITCHES
-        ================================================== */
-
-        const switches =
-            document.querySelectorAll(
-                ".switch"
-            );
-
-
-        switches.forEach(
-            toggle => {
-
-                toggle.addEventListener(
-                    "click",
-                    () => {
-
-                        toggle.classList.toggle(
-                            "active"
-                        );
-
-                    }
-                );
-
-            }
-        );
-
-
-        /* =================================================
-           SHUTTLE
-        ================================================== */
-
-        const carForward =
-            document.getElementById(
-                "carForward"
-            );
-
-
-        const carStop =
-            document.getElementById(
-                "carStop"
-            );
-
-
-        const carBackward =
-            document.getElementById(
-                "carBackward"
-            );
-
-
-        const autoDock =
-            document.getElementById(
-                "autoDock"
-            );
-
-
-        if (carForward) {
-
-            carForward.addEventListener(
-                "click",
-                () => {
-
-                    alert(
-                        "Demo: Shuttle command FORWARD."
-                    );
-
-                }
-            );
-
-        }
-
-
-        if (carStop) {
-
-            carStop.addEventListener(
-                "click",
-                () => {
-
-                    alert(
-                        "Demo: Shuttle command STOP."
-                    );
-
-                }
-            );
-
-        }
-
-
-        if (carBackward) {
-
-            carBackward.addEventListener(
-                "click",
-                () => {
-
-                    alert(
-                        "Demo: Shuttle command BACKWARD."
-                    );
-
-                }
-            );
-
-        }
-
-
-        if (autoDock) {
-
-            autoDock.addEventListener(
-                "click",
-                () => {
-
-                    alert(
-                        "Demo: Shuttle automatic return-to-dock enabled."
-                    );
-
-                }
-            );
-
-        }
-
-
-        /* =================================================
-           THROTTLE
-        ================================================== */
-
-        const throttleSlider =
-            document.getElementById(
-                "throttleSlider"
-            );
-
-
-        const throttleValue =
-            document.getElementById(
-                "throttleValue"
-            );
-
-
-        if (throttleSlider) {
-
-            throttleSlider.addEventListener(
-                "input",
-                () => {
-
-                    if (throttleValue) {
-
-                        throttleValue.textContent =
-                            `${throttleSlider.value}%`;
-
-                    }
-
-                }
-            );
-
-        }
-
-
-        /* =================================================
-           COTTAGE RESET / ACTIVATE ALL
-        ================================================== */
-
-        const activateAllCottages =
-            document.getElementById(
-                "activateAllCottages"
-            );
-
-
-        const resetCottages =
-            document.getElementById(
-                "resetCottages"
-            );
-
-
-        const cottageButtons =
-            document.querySelectorAll(
-                ".cottage-controls button"
-            );
-
-
-        cottageButtons.forEach(
-            button => {
-
-                button.addEventListener(
-                    "click",
-                    () => {
-
-                        cottageButtons.forEach(
-                            item => {
-
-                                item.classList.remove(
-                                    "active"
-                                );
-
-                            }
-                        );
-
-
-                        button.classList.add(
-                            "active"
-                        );
-
-                    }
-                );
-
-            }
-        );
-
-
-        if (activateAllCottages) {
-
-            activateAllCottages.addEventListener(
-                "click",
-                () => {
-
-                    cottageButtons.forEach(
-                        button => {
-
-                            button.classList.add(
-                                "active"
-                            );
-
-                        }
-                    );
-
-                }
-            );
-
-        }
-
-
-        if (resetCottages) {
-
-            resetCottages.addEventListener(
-                "click",
-                () => {
-
-                    cottageButtons.forEach(
-                        button => {
-
-                            button.classList.remove(
-                                "active"
-                            );
-
-                        }
-                    );
-
-                }
-            );
-
-        }
-
-
-        /* =================================================
-           RGB POOL COLORS
-        ================================================== */
-
-        const rgbButtons =
-            document.querySelectorAll(
-                ".rgb-color"
-            );
-
-
-        rgbButtons.forEach(
-            button => {
-
-                button.addEventListener(
-                    "click",
-                    () => {
-
-                        rgbButtons.forEach(
-                            item => {
-
-                                item.classList.remove(
-                                    "active"
-                                );
-
-                            }
-                        );
-
-
-                        button.classList.add(
-                            "active"
-                        );
-
-                    }
-                );
-
-            }
-        );
-
-
-        /* =================================================
-           POOL BRIGHTNESS
-        ================================================== */
-
-        const poolBrightnessSlider =
-            document.querySelector(
-                ".brightness-box input[type='range']"
-            );
-
-
-        const poolBrightness =
-            document.getElementById(
-                "poolBrightness"
-            );
-
-
-        if (poolBrightnessSlider) {
-
-            poolBrightnessSlider.addEventListener(
-                "input",
-                () => {
-
-                    if (poolBrightness) {
-
-                        poolBrightness.textContent =
-                            `${poolBrightnessSlider.value}%`;
-
-                    }
-
-                }
-            );
-
-        }
-
-
-        /* =================================================
-           EVENT MODE
-        ================================================== */
-
-        const eventModeButton =
-            document.getElementById(
-                "eventModeButton"
-            );
-
-
-        if (eventModeButton) {
-
-            eventModeButton.addEventListener(
-                "click",
-                () => {
-
-                    const isActive =
-                        eventModeButton.classList.toggle(
-                            "active"
-                        );
-
-
-                    eventModeButton.textContent =
-                        isActive
-                            ? "EVENT MODE ACTIVE"
-                            : "ACTIVATE EVENT MODE";
-
-                }
-            );
-
-        }
-
-
-        /* =================================================
-           BEACON
-        ================================================== */
-
-        const beaconRotateButton =
-            document.getElementById(
-                "beaconRotateButton"
-            );
-
-
-        if (beaconRotateButton) {
-
-            beaconRotateButton.addEventListener(
-                "click",
-                () => {
-
-                    beaconRotateButton.classList.toggle(
-                        "active"
-                    );
-
-                }
-            );
-
-        }
-
-
-        /* =================================================
-           KTV MUTE
-        ================================================== */
-
-        const ktvMuteButton =
-            document.getElementById(
-                "ktvMuteButton"
-            );
-
-
-        if (ktvMuteButton) {
-
-            ktvMuteButton.addEventListener(
-                "click",
-                () => {
-
-                    ktvMuteButton.classList.toggle(
-                        "active"
-                    );
-
-                    ktvMuteButton.innerHTML =
-                        ktvMuteButton.classList.contains(
-                            "active"
-                        )
-                            ? '<i class="fa-solid fa-volume-xmark"></i> KTV UNMUTE'
-                            : '<i class="fa-solid fa-volume-xmark"></i> KTV MUTE';
-
-                }
-            );
-
-        }
-
-
-        /* =================================================
-           LOGOUT
-        ================================================== */
-
-        const logoutButton =
-            document.getElementById(
-                "logoutButton"
-            );
-
-
-        if (logoutButton) {
-
-            logoutButton.addEventListener(
-                "click",
-                () => {
-
-                    const confirmed =
-                        window.confirm(
-                            "Are you sure you want to log out?"
-                        );
-
-
-                    if (!confirmed) {
-                        return;
-                    }
-
-
-                    localStorage.removeItem(
-                        "isLoggedIn"
-                    );
-
-                    localStorage.removeItem(
-                        "guestEmail"
-                    );
-
-                    localStorage.removeItem(
-                        "guestName"
-                    );
-
-
-                    window.location.href =
-                        "index.html";
-
-                }
-            );
-
-        }
-
-
-        /* =================================================
-           PLACEHOLDER BUTTONS
-        ================================================== */
-
-        const linkButtons =
-            document.querySelectorAll(
-                "[data-link]"
-            );
-
-
-        linkButtons.forEach(
-            button => {
-
-                button.addEventListener(
-                    "click",
-                    () => {
-
-                        const link =
-                            button.dataset.link;
-
-
-                        if (link) {
-
-                            window.location.href =
-                                link;
-
-                        }
-
-                    }
-                );
-
-            }
-        );
-
-
-        /* =================================================
-           HELPER
-        ================================================== */
-
-        function scrollToSection(
-            id
-        ) {
-
-            const element =
-                document.getElementById(id);
-
-
-            if (!element) {
-                return;
-            }
-
-
-            element.scrollIntoView(
-                {
-                    behavior:
-                        "smooth",
-
-                    block:
-                        "start"
-                }
-            );
-
-        }
-
-
-        console.log(
-            "Catherine's Admin Command Center initialized."
-        );
-
+document.addEventListener("DOMContentLoaded", () => {
+    const Shell = window.ControlShell;
+    const Link = window.DioramaLink;
+    const DB = window.ResortDB;
+
+    Shell.init("admin-dashboard");
+
+    if (!Shell.isAdmin()) {
+        Shell.renderLocked(document.getElementById("pageContent"), { 
+            allowed: false, 
+            reason: "This page is restricted to Resort Administrators.", 
+            action: "login" 
+        });
+        return;
     }
-);
+
+    const $ = id => document.getElementById(id);
+
+    const el = {
+        statOccupancy: $("statOccupancy"),
+        statGuests: $("statGuests"),
+        
+        esp1State: $("esp1State"),
+        esp1Rssi: $("esp1Rssi"),
+        esp2State: $("esp2State"),
+        esp2Rssi: $("esp2Rssi"),
+        
+        stPower: $("stPower"),
+        stGuest: $("stGuest"),
+        stGate: $("stGate"),
+        stCar: $("stCar"),
+        stPool: $("stPool"),
+        stPump: $("stPump"),
+        stKtv: $("stKtv"),
+        stBeacon: $("stBeacon"),
+        stEvent: $("stEvent"),
+        
+        logBox: $("activityLog")
+    };
+
+    function updateStats() {
+        const stats = DB.getReservationStats();
+        el.statOccupancy.textContent = `${stats.occupancyPct}%`;
+        el.statGuests.textContent = `${stats.activeGuests} Active Guests`;
+    }
+
+    function renderStatus() {
+        // ESP States
+        const e1 = Link.isDeviceOnline("esp1");
+        el.esp1State.textContent = Link.mode === "simulation" ? "Simulated" : (e1 ? "Online" : "Offline");
+        el.esp1State.style.color = e1 || Link.mode === "simulation" ? "#4caf50" : "#f44336";
+        
+        const e2 = Link.isDeviceOnline("esp2");
+        el.esp2State.textContent = Link.mode === "simulation" ? "Simulated" : (e2 ? "Online" : "Offline");
+        el.esp2State.style.color = e2 || Link.mode === "simulation" ? "#4caf50" : "#f44336";
+        
+        const st1 = Link.get("status/esp1") || {};
+        el.esp1Rssi.textContent = `Signal: ${st1.rssi || 0} dBm`;
+        
+        const st2 = Link.get("status/esp2") || {};
+        el.esp2Rssi.textContent = `Signal: ${st2.rssi || 0} dBm`;
+
+        // Components
+        const sys = Link.get("system") || {};
+        el.stPower.textContent = sys.power === false ? "OFF" : "ON";
+        
+        const guest = Link.get("guest") || {};
+        el.stGuest.textContent = guest.checkedIn ? guest.name : "None";
+        
+        const gate = Link.get("gate") || {};
+        el.stGate.textContent = (gate.target === "open" ? "Opening/Open" : "Closed");
+        
+        const car = Link.get("car") || {};
+        el.stCar.textContent = car.state || "stopped";
+        
+        const pool = Link.get("pool") || {};
+        el.stPool.textContent = pool.light ? "ON" : "OFF";
+        el.stPump.textContent = pool.pump ? "ON" : "OFF";
+        
+        const ktv = Link.get("ktv") || {};
+        el.stKtv.textContent = ktv.hallOpen ? "Detected" : "No Magnet";
+        
+        const beacon = Link.get("beacon") || {};
+        el.stBeacon.textContent = beacon.on ? `Sweeping` : "OFF";
+        
+        const evt = Link.get("event") || {};
+        el.stEvent.textContent = evt.mode ? "Active" : "Inactive";
+        
+        renderLogs();
+    }
+    
+    function renderLogs() {
+        const logs = Link.getLogs(25);
+        if (logs.length === 0) {
+            el.logBox.innerHTML = '<div style="color:var(--muted); text-align:center; padding-top:40px;">No recent activity</div>';
+            return;
+        }
+        
+        el.logBox.innerHTML = logs.map(l => {
+            const time = new Date(l.t).toLocaleTimeString([], { hour12: false });
+            return `
+                <div class="log-entry">
+                    <span class="log-time">[${time}]</span>
+                    <span class="log-msg">${Shell.escapeHtml(l.msg)}</span>
+                </div>
+            `;
+        }).join("");
+    }
+
+    // Subscribe to all changes
+    Link.on("system", renderStatus);
+    Link.on("status", renderStatus);
+    Link.on("gate", renderStatus);
+    Link.on("car", renderStatus);
+    Link.on("pool", renderStatus);
+    Link.on("ktv", renderStatus);
+    Link.on("beacon", renderStatus);
+    Link.on("event", renderStatus);
+    Link.on("guest", renderStatus);
+    Link.on("logs", renderStatus);
+    
+    window.addEventListener("resort:reservation-added", updateStats);
+    window.addEventListener("resort:reservation-updated", updateStats);
+
+    // Initial renders
+    updateStats();
+    
+    // Heartbeat check interval
+    setInterval(renderStatus, 2000);
+});

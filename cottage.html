@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cottages | Catherine's Bagasbas Lighthouse Resort</title>
+    <meta name="description" content="Smart cottage assignment and reservation-linked cottage lighting at Catherine's Bagasbas Lighthouse Resort.">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="css/control-pages.css">
+</head>
+
+<body>
+
+    <div id="controlSidebar"></div>
+
+    <main class="cs-main">
+
+        <header class="cs-topbar">
+            <div>
+                <span class="cs-eyebrow">Smart Cottage Assignment</span>
+                <h1 id="cottageTitle">Cottages</h1>
+                <p id="cottageIntro">After NFC check-in, the system finds the reserved cottage and turns on only that cottage's light.</p>
+            </div>
+            <span class="cs-connection" id="csConnection"><i></i>Connecting…</span>
+        </header>
+
+        <div id="pageContent" class="cs-grid">
+
+            <section class="cs-card span-12">
+                <div class="cs-card-head">
+                    <div>
+                        <h2>Cottage Map</h2>
+                        <small id="mapHint">Live occupancy and lighting</small>
+                    </div>
+                    <span class="cs-chip info" id="occupancyChip">0 / 4 occupied</span>
+                </div>
+                <div class="cottage-grid" id="cottageGrid"></div>
+            </section>
+
+            <section class="cs-card span-6" id="myStayCard">
+                <div class="cs-card-head">
+                    <div>
+                        <h2>My Stay</h2>
+                        <small>Linked to your reservation</small>
+                    </div>
+                </div>
+                <div class="receipt" id="myStay"></div>
+            </section>
+
+            <section class="cs-card span-6">
+                <div class="cs-card-head">
+                    <div>
+                        <h2>How it works</h2>
+                        <small>Reservation-linked activation</small>
+                    </div>
+                </div>
+                <div class="flow">
+                    <span class="done">Reservation</span><em>→</em>
+                    <span class="done">Arrival</span><em>→</em>
+                    <span class="done">Smart Entrance</span><em>→</em>
+                    <span class="now">NFC Check-in</span><em>→</em>
+                    <span>Cottage Light ON</span>
+                </div>
+                <p style="margin-top:14px;font-size:13px;color:var(--muted);line-height:1.6">
+                    The NFC reader at the entrance identifies the guest and verifies the reservation. The assigned cottage is saved to the system, and only that cottage's light turns on. Other cottages stay dark until their own guests check in.
+                </p>
+            </section>
+
+        </div>
+    </main>
+
+    <script src="js/database.js"></script>
+    <script src="js/firebase-config.js"></script>
+    <script src="js/diorama-link.js"></script>
+    <script src="js/control-shell.js"></script>
+    <script src="js/cottage.js"></script>
+
+</body>
+
+</html>
